@@ -14,5 +14,6 @@ public class Label extends JLabel{
     public Label() {
 
         this.setFont(new Font("Arial",Font.BOLD,30));
+        this.setForeground(Color.decode("#0077AC"));
     }
 }

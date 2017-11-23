@@ -17,17 +17,14 @@ public class Frame extends JFrame{
 
     /**
      * Instantiates a new Frame.
-     *
-     * @param panel the panel
      */
-    public Frame(JPanel panel){
+    public Frame(){
 
-        this.setSize(400,200);
-        this.setTitle("Frigo manager");
-        this.setResizable(false);
+        this.setSize(1100,600);
+        this.setTitle("Pimp My Fridge");
+        this.setResizable(true);
         this.setLocation(500,250);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setContentPane(panel);
         this.setVisible(true);
     }
 
