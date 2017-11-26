@@ -128,15 +128,6 @@ public class SerialController implements SerialPortEventListener {
         }
     }
 
-    /**
-     * Send consigne.
-     *
-     * @param consigne the consigne
-     */
-    public synchronized void sendConsigne(int consigne){
-        sendData("consigne:"+consigne);
-    }
-
 
     /**
      * Close.

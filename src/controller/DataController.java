@@ -41,12 +41,13 @@ public class DataController {
      * @param data the data
      */
     public void processData(String data){
+
         if(data.startsWith("#") && data.endsWith("#") && data.length() > 2) {
             data = data.split("#")[1];
             if(!data.contains("NAN")){
                 switch(data.toCharArray()[0]){
                     case 't':
-                        float t = Float.parseFloat(data.split("t")[1]);
+                        float t = (float) tempThermistance(Integer.parseInt(data.split("t")[1]));
                         model.setTemperatureCanette(t);
                         view.setTempCanette(t);
                         break;
@@ -56,7 +57,7 @@ public class DataController {
                         view.setHumidite(h);
                         break;
                     case 'i':
-                        float i = (float) tempThermistance(Integer.parseInt(data.split("i")[1]));
+                        float i = Float.parseFloat(data.split("i")[1]);
                         model.setTemperatureInterne(i);
                         view.setTempInterne(i);
                         break;

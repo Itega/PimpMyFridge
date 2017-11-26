@@ -64,6 +64,30 @@ public class Controller {
 
         new Thread(() -> {
             while(true){
+                if((model.getTemperatureConsigne()-0.3) < model.getTemperatureCanette()) {
+                    serial.sendData("frigo:1");
+                    model.setEtatFrigo(true);
+                    try {
+                        Thread.sleep(6000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    serial.sendData("frigo:0");
+                    model.setEtatFrigo(false);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }).start();
+
+        new Thread(() -> {
+            while(true){
                 checkBigDifference();
                 try {
                     Thread.sleep(60000);
@@ -81,19 +105,6 @@ public class Controller {
                 int consigne = ((JSlider) e.getSource()).getValue();
                 model.setTemperatureConsigne(consigne);
                 view.setTempConsigne(consigne);
-
-                Calendar rightNow = Calendar.getInstance();
-                if (rightNow.getTimeInMillis() > nextUpdate) {
-                    if (model.getTemperatureConsigne() < model.getTemperatureCanette())
-                        serial.sendData("frigo:1");
-                    else
-                        serial.sendData("frigo:0");
-                    if (serial.isConnected)
-                        serial.sendConsigne(consigne);
-
-                    rightNow.add(Calendar.SECOND, 30);
-                    nextUpdate = rightNow.getTimeInMillis();
-                }
             }
         });
     }
@@ -107,7 +118,7 @@ public class Controller {
     }
 
     private void checkBigDifference(){
-        if(model.getLastEtatFrigo() && model.getEtatFrigo() && (model.getLastTemperatureCanette() < model.getTemperatureCanette())){
+        if(model.getLastEtatFrigo() && model.getEtatFrigo() && ((model.getTemperatureCanette() - model.getLastTemperatureCanette()) > 0.4)){
             view.alerteTemp();
         }
         model.setLastEtatFrigo(model.getEtatFrigo());
